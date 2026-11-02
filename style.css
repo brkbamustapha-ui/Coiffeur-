@@ -520,3 +520,4 @@ body.ready .hero-title .line:nth-child(3) { animation-delay: .24s; }
 .modal-recap span { color: var(--muted); }
 .modal-note { font-size: .8rem; color: var(--muted); margin-bottom: 20px; }
 .modal-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.staff-link { color: var(--gold); border-bottom: 1px solid rgba(201, 164, 92, .4); }

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Espace coiffeur — Maison Gambetta</title>
+  <meta name="theme-color" content="#0b0a08" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Playfair+Display:ital,wght@0,600;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body class="admin">
+  <div class="bg-orbs" aria-hidden="true">
+    <i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i><i class="orb o4"></i>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ===== Connexion ===== -->
+  <section class="login-view" id="loginView">
+    <form class="login-card glass" id="loginForm" novalidate>
+      <img src="logo.svg" alt="Maison Gambetta" class="login-logo" width="96" height="96" />
+      <h1>Espace coiffeur</h1>
+      <p class="muted">Connectez-vous pour gérer les réservations.</p>
+      <div class="field">
+        <input type="text" id="lgUser" autocomplete="username" placeholder=" " required autocapitalize="none" spellcheck="false" />
+        <label for="lgUser">Identifiant</label>
+      </div>
+      <div class="field">
+        <input type="password" id="lgPass" autocomplete="current-password" placeholder=" " required />
+        <label for="lgPass">Mot de passe</label>
+        <button type="button" class="eye" data-eye="lgPass" aria-label="Afficher le mot de passe">👁</button>
+      </div>
+      <button type="submit" class="btn btn-neon btn-lg btn-block">Se connecter</button>
+      <p class="form-msg" id="loginMsg" role="status"></p>
+      <a href="index.html" class="back-link">← Retour au site</a>
+    </form>
+  </section>
+
+  <!-- ===== Tableau de bord ===== -->
+  <div class="dash" id="dashView" hidden>
+    <header class="dash-top glass">
+      <a href="index.html" class="logo" title="Voir le site">
+        <img src="logo.svg" alt="" class="logo-mark" width="44" height="44" />
+        <span class="logo-text">Maison <em>Gambetta</em></span>
+      </a>
+      <div class="top-actions">
+        <button class="btn btn-glass" id="pwdBtn">Mot de passe</button>
+        <button class="btn btn-glass" id="logoutBtn">Déconnexion</button>
+      </div>
+    </header>
+
+    <main class="dash-main">
+      <div class="dash-head">
+        <div>
+          <p class="kicker">Tableau de bord</p>
+          <h1 id="hello">Bonjour 👋</h1>
+          <p class="muted" id="todayLabel"></p>
+        </div>
+        <button class="btn btn-glass" id="refreshBtn">↻ Actualiser</button>
+      </div>
+
+      <div class="stats">
+        <div class="kpi glass tilt"><span>Aujourd'hui</span><strong id="kToday">0</strong><small>rendez-vous</small></div>
+        <div class="kpi glass tilt"><span>À venir</span><strong id="kUpcoming">0</strong><small>7 prochains jours</small></div>
+        <div class="kpi glass tilt"><span>En attente</span><strong id="kPending">0</strong><small>à confirmer</small></div>
+        <div class="kpi glass tilt"><span>Ce mois</span><strong id="kMonth">0</strong><small>réservations</small></div>
+      </div>
+
+      <section class="panel glass">
+        <div class="toolbar">
+          <div class="tabs" role="tablist">
+            <button class="tab active" data-range="today" role="tab">Aujourd'hui</button>
+            <button class="tab" data-range="upcoming" role="tab">À venir</button>
+            <button class="tab" data-range="past" role="tab">Passées</button>
+            <button class="tab" data-range="all" role="tab">Toutes</button>
+          </div>
+          <div class="filters">
+            <input type="search" id="search" placeholder="Rechercher un nom, un numéro…" aria-label="Rechercher" />
+            <select id="statusFilter" aria-label="Filtrer par statut">
+              <option value="">Tous les statuts</option>
+              <option value="en_attente">En attente</option>
+              <option value="confirmee">Confirmée</option>
+              <option value="terminee">Terminée</option>
+              <option value="annulee">Annulée</option>
+            </select>
+          </div>
+        </div>
+        <div class="list" id="list"></div>
+        <p class="empty" id="empty" hidden>Aucune réservation pour cette vue.</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- ===== Changer le mot de passe ===== -->
+  <div class="modal" id="pwdModal" role="dialog" aria-modal="true" aria-labelledby="pwdTitle" hidden>
+    <form class="modal-card glass" id="pwdForm" novalidate>
+      <h3 id="pwdTitle">Changer le mot de passe</h3>
+      <p class="modal-note">8 caractères minimum. Les autres appareils connectés seront déconnectés.</p>
+      <div class="field">
+        <input type="password" id="pwOld" autocomplete="current-password" placeholder=" " required />
+        <label for="pwOld">Mot de passe actuel</label>
+      </div>
+      <div class="field">
+        <input type="password" id="pwNew" autocomplete="new-password" placeholder=" " required minlength="8" />
+        <label for="pwNew">Nouveau mot de passe</label>
+      </div>
+      <div class="field">
+        <input type="password" id="pwNew2" autocomplete="new-password" placeholder=" " required minlength="8" />
+        <label for="pwNew2">Confirmer le nouveau mot de passe</label>
+      </div>
+      <p class="form-msg" id="pwdMsg" role="status"></p>
+      <div class="modal-actions">
+        <button type="submit" class="btn btn-neon">Enregistrer</button>
+        <button type="button" class="btn btn-glass" id="pwdCancel">Annuler</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="toast glass" id="toast" role="status" hidden></div>
+
+  <script src="config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

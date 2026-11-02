@@ -394,7 +394,7 @@
     $("#service").value = b.dataset.service;
   }));
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     let ok = true;
     $$("input, select", form).forEach((f) => {
@@ -409,14 +409,27 @@
     }
     const d = Object.fromEntries(new FormData(form));
     const dateFr = new Date(d.date + "T00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
-    const ref = "MG-" + Date.now().toString(36).toUpperCase().slice(-6);
-
-    // Sauvegarde locale (mode test) pour garder une trace des réservations
+    const btn = $("button[type=submit]", form);
+    btn.disabled = true;
+    msg.textContent = "Envoi de votre réservation…";
+    msg.className = "form-msg";
+    let ref;
     try {
-      const list = JSON.parse(localStorage.getItem("mg-bookings") || "[]");
-      list.push({ ref, ...d, created: new Date().toISOString() });
-      localStorage.setItem("mg-bookings", JSON.stringify(list));
-    } catch (_) {}
+      ref = await window.SalonAPI.rpc("salon_create_booking", {
+        p_name: d.name, p_phone: d.phone, p_service: d.service, p_date: d.date, p_time: d.time,
+      });
+    } catch (err) {
+      const errors = {
+        date_invalide: "Choisissez une date entre aujourd'hui et les 90 prochains jours.",
+        heure_invalide: "Le salon est ouvert de 09:00 à 21:00.",
+        trop_de_reservations: "Trop de réservations pour ce numéro aujourd'hui. Appelez-nous.",
+      };
+      msg.textContent = errors[err.message] || "Impossible d'envoyer la réservation. Réessayez ou appelez-nous.";
+      msg.className = "form-msg err";
+      btn.disabled = false;
+      return;
+    }
+    btn.disabled = false;
 
     const text =
       `Bonjour Maison Gambetta ✂️\n\nRéservation ${ref} :\n` +
@@ -436,7 +449,7 @@
     $("#bookWa").href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
     openModal();
 
-    msg.textContent = `Réservation ${ref} enregistrée.`;
+    msg.textContent = `Réservation ${ref} envoyée au salon.`;
     msg.className = "form-msg ok";
     form.reset();
   });
