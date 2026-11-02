@@ -34,17 +34,17 @@
     renderer.outputEncoding = THREE.sRGBEncoding;
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x07040f, 0.045);
+    scene.fog = new THREE.FogExp2(0x0b0a08, 0.045);
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
     camera.position.set(0, 0, 12);
 
     // Lumières néon
     scene.add(new THREE.AmbientLight(0xffffff, 0.25));
     const lights = [
-      [0xff2bd6, 3, [-6, 4, 6]],
-      [0x00e5ff, 3, [6, -3, 5]],
-      [0xffc93c, 2, [2, 6, -2]],
-      [0x7b2cff, 2.5, [-3, -5, 3]],
+      [0xffe2a8, 3, [-6, 4, 6]],
+      [0xffffff, 2.2, [6, -3, 5]],
+      [0xc9a45c, 2.5, [2, 6, -2]],
+      [0x8f6f35, 2, [-3, -5, 3]],
     ].map(([c, i, p]) => {
       const l = new THREE.PointLight(c, i, 30);
       l.position.set(...p);
@@ -59,7 +59,7 @@
     const stripeCanvas = document.createElement("canvas");
     stripeCanvas.width = 256; stripeCanvas.height = 256;
     const sctx = stripeCanvas.getContext("2d");
-    const colors = ["#ff2bd6", "#ffffff", "#00e5ff", "#ffffff"];
+    const colors = ["#c9a45c", "#f6f2ea", "#15130f", "#f6f2ea"];
     const band = 32;
     for (let i = -8; i < 16; i++) {
       sctx.fillStyle = colors[((i % 4) + 4) % 4];
@@ -78,7 +78,7 @@
     const pole = new THREE.Group();
     const poleBody = new THREE.Mesh(
       new THREE.CylinderGeometry(0.55, 0.55, 3.4, 48, 1, true),
-      new THREE.MeshStandardMaterial({ map: stripeTex, emissive: 0x220022, emissiveMap: stripeTex, emissiveIntensity: 0.6, roughness: 0.25, metalness: 0.1 })
+      new THREE.MeshStandardMaterial({ map: stripeTex, emissive: 0x111111, emissiveMap: stripeTex, emissiveIntensity: 0.4, roughness: 0.25, metalness: 0.1 })
     );
     const glassShell = new THREE.Mesh(
       new THREE.CylinderGeometry(0.62, 0.62, 3.4, 48, 1, true),
@@ -99,7 +99,7 @@
     // Nœud torique néon
     const knot = new THREE.Mesh(
       new THREE.TorusKnotGeometry(1.1, 0.32, 220, 32),
-      new THREE.MeshPhysicalMaterial({ color: 0xff2bd6, metalness: 0.6, roughness: 0.15, clearcoat: 1, clearcoatRoughness: 0.1, emissive: 0x3a0030 })
+      new THREE.MeshPhysicalMaterial({ color: 0x1a1712, metalness: 0.9, roughness: 0.18, clearcoat: 1, clearcoatRoughness: 0.08 })
     );
     group.add(knot);
 
@@ -110,17 +110,17 @@
     // Icosaèdre filaire
     const ico = new THREE.Mesh(
       new THREE.IcosahedronGeometry(0.9, 1),
-      new THREE.MeshStandardMaterial({ color: 0x00e5ff, wireframe: true, emissive: 0x00e5ff, emissiveIntensity: 0.6 })
+      new THREE.MeshStandardMaterial({ color: 0xc9a45c, wireframe: true, emissive: 0xc9a45c, emissiveIntensity: 0.5 })
     );
     group.add(ico);
 
     // Sphères chromées flottantes
     const spheres = [];
-    const sphereColors = [0x00e5ff, 0xffc93c, 0x7b2cff, 0xb6ff3c, 0xff5e3a];
+    const sphereColors = [0xc9a45c, 0xf6f2ea, 0x1a1712, 0xecd9ad, 0xc9a45c];
     for (let i = 0; i < 9; i++) {
       const s = new THREE.Mesh(
         new THREE.SphereGeometry(0.12 + Math.random() * 0.28, 32, 32),
-        new THREE.MeshStandardMaterial({ color: sphereColors[i % sphereColors.length], metalness: 0.8, roughness: 0.15, emissive: sphereColors[i % sphereColors.length], emissiveIntensity: 0.15 })
+        new THREE.MeshStandardMaterial({ color: sphereColors[i % sphereColors.length], metalness: 0.8, roughness: 0.15, emissive: sphereColors[i % sphereColors.length], emissiveIntensity: 0.05 })
       );
       s.userData = { r: 2.2 + Math.random() * 1.8, a: Math.random() * Math.PI * 2, y: (Math.random() - 0.5) * 3.5, sp: 0.15 + Math.random() * 0.3 };
       group.add(s);
@@ -131,7 +131,7 @@
     const pCount = 700;
     const pos = new Float32Array(pCount * 3);
     const col = new Float32Array(pCount * 3);
-    const palette = [new THREE.Color(0xff2bd6), new THREE.Color(0x00e5ff), new THREE.Color(0xffc93c), new THREE.Color(0x7b2cff)];
+    const palette = [new THREE.Color(0xc9a45c), new THREE.Color(0xf6f2ea), new THREE.Color(0xecd9ad)];
     for (let i = 0; i < pCount; i++) {
       pos[i * 3] = (Math.random() - 0.5) * 30;
       pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
@@ -194,7 +194,6 @@
 
       knot.rotation.x = t * 0.35 * speed;
       knot.rotation.y = t * 0.25 * speed;
-      knot.material.color.setHSL((0.85 + Math.sin(t * 0.2) * 0.08) % 1, 1, 0.55);
 
       ring.rotation.x = Math.PI / 2.4 + Math.sin(t * 0.4) * 0.2;
       ring.rotation.y = t * 0.2 * speed;
@@ -384,7 +383,7 @@
   setInterval(updateOpenStatus, 60000);
 
   /* ---------- Réservation → WhatsApp ---------- */
-  const WHATSAPP = "213555000000"; // ← remplacez par le numéro du salon
+  const WHATSAPP = "213550123456"; // numéro de TEST — remplacez par le vrai numéro du salon
   const form = $("#bookingForm");
   const msg = $("#formMsg");
   const dateInput = $("#date");
@@ -410,13 +409,42 @@
     }
     const d = Object.fromEntries(new FormData(form));
     const dateFr = new Date(d.date + "T00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+    const ref = "MG-" + Date.now().toString(36).toUpperCase().slice(-6);
+
+    // Sauvegarde locale (mode test) pour garder une trace des réservations
+    try {
+      const list = JSON.parse(localStorage.getItem("mg-bookings") || "[]");
+      list.push({ ref, ...d, created: new Date().toISOString() });
+      localStorage.setItem("mg-bookings", JSON.stringify(list));
+    } catch (_) {}
+
     const text =
-      `Bonjour Maison Gambetta ✂️\n\nJe souhaite réserver :\n` +
+      `Bonjour Maison Gambetta ✂️\n\nRéservation ${ref} :\n` +
       `• Prestation : ${d.service}\n• Date : ${dateFr}\n• Heure : ${d.time}\n\n` +
       `Nom : ${d.name}\nTéléphone : ${d.phone}`;
-    window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
-    msg.textContent = "Merci ! Votre demande s'ouvre dans WhatsApp.";
+
+    $("#bookRef").textContent = ref;
+    const recap = $("#bookRecap");
+    recap.innerHTML = "";
+    [["Nom", d.name], ["Prestation", d.service], ["Date", dateFr], ["Heure", d.time], ["Téléphone", d.phone]].forEach(([k, v]) => {
+      const li = document.createElement("li");
+      const a = document.createElement("span"); a.textContent = k;
+      const b = document.createElement("strong"); b.textContent = v;
+      li.append(a, b);
+      recap.appendChild(li);
+    });
+    $("#bookWa").href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`;
+    openModal();
+
+    msg.textContent = `Réservation ${ref} enregistrée.`;
     msg.className = "form-msg ok";
     form.reset();
   });
+
+  const modal = $("#bookModal");
+  function openModal() { modal.hidden = false; $("#bookClose").focus(); }
+  function closeModal() { modal.hidden = true; }
+  $("#bookClose").addEventListener("click", closeModal);
+  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !modal.hidden) closeModal(); });
 })();

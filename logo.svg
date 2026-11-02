@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Maison Gambetta">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f3e6c4"/>
+      <stop offset=".45" stop-color="#c9a45c"/>
+      <stop offset="1" stop-color="#8f6f35"/>
+    </linearGradient>
+    <path id="arcTop" d="M 30 100 A 70 70 0 0 1 170 100"/>
+    <path id="arcBot" d="M 38 100 A 62 62 0 0 0 162 100"/>
+  </defs>
+  <circle cx="100" cy="100" r="96" fill="#0d0c0a"/>
+  <circle cx="100" cy="100" r="92" fill="none" stroke="url(#gold)" stroke-width="2"/>
+  <circle cx="100" cy="100" r="58" fill="none" stroke="url(#gold)" stroke-width="1" opacity=".6"/>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="13" letter-spacing="4" fill="url(#gold)">
+    <textPath href="#arcTop" startOffset="50%" text-anchor="middle">MAISON GAMBETTA</textPath>
+  </text>
+  <text font-family="Georgia, 'Times New Roman', serif" font-size="11" letter-spacing="5" fill="url(#gold)" dominant-baseline="hanging">
+    <textPath href="#arcBot" startOffset="50%" text-anchor="middle">ORAN · 2015</textPath>
+  </text>
+  <!-- Ciseaux -->
+  <g fill="none" stroke="url(#gold)" stroke-width="2.6" stroke-linecap="round">
+    <circle cx="86" cy="128" r="7"/>
+    <circle cx="114" cy="128" r="7"/>
+    <path d="M90 122 L114 70 M110 122 L86 70"/>
+  </g>
+  <!-- Monogramme -->
+  <text x="100" y="108" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="44" fill="url(#gold)" stroke="#0d0c0a" stroke-width="5" paint-order="stroke">MG</text>
+  <circle cx="22" cy="100" r="2.5" fill="#c9a45c"/>
+  <circle cx="178" cy="100" r="2.5" fill="#c9a45c"/>
+</svg>
